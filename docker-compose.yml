@@ -1,0 +1,31 @@
+version: '3.5'
+
+services:
+  socialmedia:
+    container_name: socialmedia
+    ports:
+      - "8080:8080"
+    depends_on:
+      - socialmediadb
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://socialmediadb:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - maven_repo:/root/.m2/repository
+       
+  socialmediadb:
+    container_name: socialmediadb
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+    image: postgres:15.2
+
+volumes:
+  socialmediadb_data:
+  maven_repo:
